@@ -1,0 +1,21 @@
+{
+  "name": "vuetility",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run start --prefix=server\" \"npm run serve --prefix=client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himeii/vuetility.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/himeii/vuetility/issues"
+  },
+  "homepage": "https://github.com/himeii/vuetility#readme"
+}
