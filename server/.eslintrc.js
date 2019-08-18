@@ -16,5 +16,7 @@ module.exports = {
     ecmaVersion: 2018,
   },
   rules: {
+    "linebreak-style": [2, "windows"],
+    "quotes": [2, "double"]
   },
 };
