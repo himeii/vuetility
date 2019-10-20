@@ -5,6 +5,13 @@ const getUser = async (req, res) => {
   res.send(users);
 };
 
+const authenticate = async (req, res) => {
+  const { login, password } = req.body;
+  console.log(login, password);
+  res.send({ login, password });
+};
+
 module.exports = {
   getUser,
+  authenticate,
 };

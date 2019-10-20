@@ -1,9 +1,15 @@
 module.exports = {
   devServer: {
-    open: process.platform === 'darwin',
-    host: '0.0.0.0',
-    port: 8080, // CHANGE YOUR PORT HERE!
-    https: false,
-    hotOnly: false,
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+      "/auth": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+    },
   },
 };

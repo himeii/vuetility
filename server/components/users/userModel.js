@@ -7,10 +7,16 @@ const User = SQL.define("user", {
   lastName: {
     type: Sequelize.STRING,
   },
-});
-
-User.sync({ force: true }).then(() => {
-  User.create({ firstName: "John", lastName: "Hancock" });
+  avatar: {
+    type: Sequelize.STRING
+  },
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+    validate: {
+      isEmail: true
+    }
+  }
 });
 
 module.exports = User;
