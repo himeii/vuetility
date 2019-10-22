@@ -25,6 +25,10 @@
             <a href="/auth/google">Google</a>
             <el-button class="social-login-button">Google</el-button>
             <el-button class="social-login-button">Twitter</el-button>
+            <el-button @click="logout">Logout</el-button>
+            <router-link to="/dashboard">
+              <el-button>To dashboard</el-button>
+            </router-link>
           </el-card>
         </el-col>
       </el-row>
@@ -34,6 +38,7 @@
 
 <script>
 // @ is an alias to /src
+import AuthAPI from "../api/auth";
 
 export default {
   name: "home",
@@ -44,6 +49,11 @@ export default {
         password: "",
       },
     };
+  },
+  methods: {
+    logout() {
+      AuthAPI.logout();
+    }
   },
 
 };

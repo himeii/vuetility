@@ -1,13 +1,13 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-const User = require("../components/users/userModel")
+const User = require("../components/users/userModel");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  done(null, id)
+  done(null, id);
 });
 
 passport.use(
@@ -18,11 +18,10 @@ passport.use(
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
     async (token, tokenSecret, profile, done) => {
-      console.log(token, tokenSecret, profile);
       const email = profile.emails[0].value;
       const user = await User.findOne({
-        where: { email }
-      })
+        where: { email },
+      });
       if (!user) {
         const firstName = profile.name.givenName;
         const lastName = profile.name.familyName;
@@ -31,8 +30,8 @@ passport.use(
           firstName,
           lastName,
           avatar,
-          email
-        })
+          email,
+        });
         done(null, createdUser);
       } else {
         done(null, user);
