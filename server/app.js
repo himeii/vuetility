@@ -18,6 +18,8 @@ SQL.authenticate()
   .then(() => winston.info("Connected"))
   .catch((err) => winston.error("Could not connect", err));
 
+require("./config/relations");
+
 SQL.sync({ force: true });
 
 // * Plugin setup
