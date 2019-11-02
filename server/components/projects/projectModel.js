@@ -20,10 +20,10 @@ const Project = SQL.define("project", {
   startDate: {
     allowNull: false,
     type: Sequelize.DATE,
-    defaultValue: Date.now(),
+    defaultValue: Date.now,
   },
   endDate: Sequelize.DATE,
-  status: Sequelize.ENUM(projectStatuses),
+  status: { type: Sequelize.ENUM(projectStatuses), defaultValue: "STARTED" },
 });
 
 module.exports = Project;

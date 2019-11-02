@@ -1,5 +1,7 @@
+const bcrypt = require("bcrypt");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const LocalStrategy = require("passport-local");
 const User = require("../components/users/userModel");
 
 passport.serializeUser((user, done) => {
@@ -9,6 +11,23 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   done(null, id);
 });
+
+passport.use(
+  new LocalStrategy({
+    usernameField: "email",
+  },
+  async (email, password, done) => {
+    const user = await User.findOne({ where: { email } });
+    if (!user) { return done(null, false); }
+    const userPassword = user.get("password");
+    const match = await bcrypt.compare(password, userPassword);
+    if (!match) {
+      return done(null, false);
+    }
+    return done(null, user);
+  }),
+);
+
 
 passport.use(
   new GoogleStrategy(

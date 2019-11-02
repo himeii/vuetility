@@ -8,6 +8,7 @@ const routes = require("./routes/index");
 const winston = require("./config/winston");
 const { SQL } = require("./config/db");
 const routeLogger = require("./middleware/routeLogger");
+const magic = require("./utils/magic");
 
 const { urlencoded, json } = express;
 
@@ -20,7 +21,14 @@ SQL.authenticate()
 
 require("./config/relations");
 
-SQL.sync({ force: true });
+// if (process.env.NODE_ENV === "development") {
+
+// }
+
+SQL.sync().then(() => {
+  // require("./utils/testDB");
+  magic();
+});
 
 // * Plugin setup
 app.use(cors());

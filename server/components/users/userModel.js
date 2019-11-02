@@ -25,6 +25,13 @@ const User = SQL.define("user", {
     },
     allowNull: false,
   },
+  password: {
+    type: Sequelize.STRING,
+    validate: {
+      min: 8, max: 32,
+    },
+    allowNull: false,
+  },
   createdAt: {
     allowNull: false,
     type: Sequelize.DATE,
@@ -33,7 +40,14 @@ const User = SQL.define("user", {
     allowNull: false,
     type: Sequelize.DATE,
   },
+}, {
+  scopes: {
+    withoutPassword: {
+      attributes: {
+        exclude: ["password"],
+      },
+    },
+  },
 });
-
 
 module.exports = User;

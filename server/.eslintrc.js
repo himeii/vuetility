@@ -17,6 +17,7 @@ module.exports = {
   },
   rules: {
     "linebreak-style": [2, "windows"],
-    "quotes": [2, "double"]
+    "quotes": [2, "double"],
+    "consistent-return": [0]
   },
 };

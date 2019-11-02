@@ -1,10 +1,15 @@
 import { create } from "apisauce";
 
-const AuthAPI = create({ baseURL: "localhost:3001/auth" });
+const AuthAPI = create({ baseURL: "http://localhost:3001/api/user" });
 
 const Auth = {
   logout: () => {
     AuthAPI.get("/logout");
+  },
+  login: ({ email, password }) => {
+    AuthAPI.post("/login", {
+      email, password
+    });
   }
 };
 

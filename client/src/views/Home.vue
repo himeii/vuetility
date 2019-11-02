@@ -9,7 +9,7 @@
             <el-form :ref="loginData" :model="loginData">
               <el-form-item label="Nickname or e-mail">
               <el-input name="login"
-                        v-model="loginData.login"
+                        v-model="loginData.email"
                         placeholder="Please type in your nickname or e-mail"/>
               </el-form-item>
               <el-form-item label="Password">
@@ -19,7 +19,7 @@
                         type="password"
                         show-password/>
               </el-form-item>
-              <el-button>Login</el-button>
+              <el-button @click="login">Login</el-button>
             </el-form>
             <p>or</p>
             <a href="/auth/google">Google</a>
@@ -27,7 +27,7 @@
             <el-button class="social-login-button">Twitter</el-button>
             <el-button @click="logout">Logout</el-button>
             <router-link to="/dashboard">
-              <el-button>To dashboard</el-button>
+              <el-button @click="login">To dashboard</el-button>
             </router-link>
           </el-card>
         </el-col>
@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       loginData: {
-        login: "",
+        email: "",
         password: "",
       },
     };
@@ -53,6 +53,10 @@ export default {
   methods: {
     logout() {
       AuthAPI.logout();
+    },
+    login() {
+      console.log("login");
+      AuthAPI.login(this.loginData);
     }
   },
 
