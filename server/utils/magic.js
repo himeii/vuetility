@@ -1,4 +1,7 @@
 const User = require("../components/users/userModel");
+const Project = require("../components/projects/projectModel");
+const Sprint = require("../components/sprints/sprintModel");
+const Task = require("../components/tasks/taskModel");
 
 function magic(...models) {
   models.forEach((model) => {
@@ -6,4 +9,4 @@ function magic(...models) {
   });
 }
 
-module.exports = () => magic(User);
+module.exports = () => magic(User, Project, Sprint, Task);

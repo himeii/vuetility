@@ -6,10 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import vmodal from "vue-js-modal";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./store/index";
 import "element-ui/lib/theme-chalk/index.css";
 
 library.add(faPlus);
+
 
 Vue.component("fa", FontAwesomeIcon);
 

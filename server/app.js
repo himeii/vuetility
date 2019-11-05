@@ -27,11 +27,14 @@ require("./config/relations");
 
 SQL.sync().then(() => {
   // require("./utils/testDB");
-  magic();
+  // magic();
 });
 
 // * Plugin setup
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 
 app.use(session({
   store: new RedisStore(),
@@ -42,6 +45,7 @@ app.use(session({
   cookie: {
     maxAge: 10 * 60 * 1000,
     httpOnly: false,
+    expires: new Date(Date.now() + (30 * 86400 * 1000)),
   },
 }));
 app.use(urlencoded({ extended: false }));

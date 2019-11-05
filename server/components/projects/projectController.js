@@ -38,6 +38,7 @@ const getAll = async (req, res) => {
   return res.status(200).send(projects);
 };
 
+
 module.exports = {
   createProject,
   deleteProject,

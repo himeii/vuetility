@@ -6,6 +6,7 @@ import Dashboard from "./views/Dashboard.vue";
 import Board from "./components/board/Board.vue";
 import Backlog from "./components/backlog/Backlog.vue";
 import Planning from "./components/planning/Planning.vue";
+import Register from "./views/Register.vue";
 
 Vue.use(Router);
 
@@ -16,6 +17,11 @@ export default new Router({
       path: "/",
       name: "home",
       component: Home,
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: Register
     },
     {
       path: "/about",

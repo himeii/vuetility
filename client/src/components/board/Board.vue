@@ -6,6 +6,8 @@
       {{sprint.name}}
       </h1>
       <span>{{ sprint.daysLeft }} days left</span>
+      <el-button @click="logout">Logout</el-button>
+      <el-button @click="getUser">Get User</el-button>
       </el-col>
     </el-row>
   <el-row type="flex" :gutter="10">
@@ -50,6 +52,13 @@ export default {
   methods: {
     openDialog() {
       this.dialogVisible = true;
+    },
+    logout() {
+      console.log(this.$store);
+      this.$store.dispatch("logout");
+    },
+    getUser() {
+      this.$store.dispatch("getUser");
     }
   },
 };
