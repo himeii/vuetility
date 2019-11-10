@@ -57,7 +57,7 @@ export default {
       this.$store.dispatch("register", this.registerData);
     },
     redirect() {
-      return this.$router.replace("/dashboard");
+      return this.$router.replace("/app");
     }
   },
   mounted() {
@@ -65,6 +65,7 @@ export default {
     if (this.$store.state.isAuthenticated) {
       this.redirect();
     }
+    console.log(this.$router);
     return this.$store.watch(state => state.isAuthenticated, this.redirect);
   },
 };

@@ -27,7 +27,7 @@ require("./config/relations");
 
 SQL.sync().then(() => {
   // require("./utils/testDB");
-  // magic();
+  magic();
 });
 
 // * Plugin setup

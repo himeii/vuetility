@@ -2,15 +2,18 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import NotFoundPage from "./views/NotFoundPage.vue";
-import Dashboard from "./views/Dashboard.vue";
+import Project from "./views/Project.vue";
 import Board from "./components/board/Board.vue";
 import Backlog from "./components/backlog/Backlog.vue";
 import Planning from "./components/planning/Planning.vue";
 import Register from "./views/Register.vue";
+import Application from "./views/Application.vue";
+import Index from "./components/app/Index.vue";
+// import store from "./store/index";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   routes: [
     {
@@ -24,36 +27,39 @@ export default new Router({
       component: Register
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ "./views/About.vue"),
-    },
-    {
-      path: "/dashboard",
-      name: "dashboard",
-      component: Dashboard,
-      redirect: "/dashboard/board",
+      path: "/app",
+      component: Application,
+      props: route => ({ collapsed: route.fullPath !== "/app" }),
       children: [
         {
-          path: "planning",
-          name: "planning",
-          component: Planning
+          name: "appIndex", path: "/", component: Index, props: { }
         },
         {
-          path: "backlog",
-          name: "backlog",
-          component: Backlog
-        },
-        {
-          path: "board",
-          name: "board",
-          component: Board
+          path: "projects/:id",
+          name: "project",
+          component: Project,
+          redirect: "projects/:id/board",
+          children: [
+            {
+              path: "planning",
+              name: "planning",
+              component: Planning
+            },
+            {
+              path: "backlog",
+              name: "backlog",
+              component: Backlog
+            },
+            {
+              path: "board",
+              name: "board",
+              component: Board
+            },
+          ]
         },
       ]
     },
+
     {
       path: "*",
       name: "not-found",
@@ -61,3 +67,13 @@ export default new Router({
     },
   ],
 });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.path.startsWith("/app")) {
+//     if (store.state.isAutheticated) {
+//       next();
+//     } else next("/");
+//   } else next();
+// });
+
+export default router;

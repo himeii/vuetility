@@ -1,13 +1,13 @@
 <template>
   <el-card shadow="hover">
-    {{ title }}
+    {{ name }}
   </el-card>
 </template>
 
 <script>
 export default {
   name: "BoardTask",
-  props: ["title"]
+  props: ["name"]
 };
 </script>
 

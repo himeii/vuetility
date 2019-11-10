@@ -9,7 +9,7 @@ const TaskSprint = require("../components/taskSprints/taskSprintModel");
 // User relations
 
 User.belongsToMany(Project, { through: Team });
-User.hasMany(Project);
+User.hasMany(Project, { as: "scrumMaster" });
 User.hasMany(Task);
 
 // Project relations

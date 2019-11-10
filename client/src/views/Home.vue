@@ -51,7 +51,7 @@ export default {
     },
     redirect() {
       if (this.$store.state.isAuthenticated) {
-        return this.$router.replace("/dashboard").catch(err => err);
+        return this.$router.replace("/app").catch(err => err);
       } return this.$router.replace("/").catch(err => err);
     }
   },

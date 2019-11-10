@@ -2,23 +2,20 @@
   <div class="board">
     <el-row type="flex">
       <el-col :span="24">
-      <h1>
-      {{sprint.name}}
-      </h1>
-      <span>{{ sprint.daysLeft }} days left</span>
-      <el-button @click="logout">Logout</el-button>
-      <el-button @click="getUser">Get User</el-button>
+        <h1>
+          Sprint {{sprint.number}}
+        </h1>
       </el-col>
     </el-row>
   <el-row type="flex" :gutter="10">
-    <BoardColumn v-for="column in columns"
+    <BoardColumn v-for="column in getColumns"
                   :key="column.title"
                   :title="column.title"
                   :tasks="column.tasks"
                   :openDialog="openDialog" > </BoardColumn>
   </el-row>
    <el-dialog :visible.sync="dialogVisible">
-      Some text
+      <new-task-form :id="sprint.projectId" :sprintId="sprint.id" />
     </el-dialog>
   </div>
 </template>
@@ -26,26 +23,24 @@
 <script>
 // import { Draggable, Container } from "vue-smooth-dnd";
 import BoardColumn from "./BoardColumn.vue";
+import NewTaskForm from "./NewTaskForm.vue";
+import ProjectsAPI from "../../api/projects";
 
-const columns = ["To Do", "In Progress", "Awaiting for review", "Testing", "Done"].map((title, index) => ({
-  title,
-  tasks: [{
-    id: index,
-    title: "Fix the thing"
-  }]
-}));
-
+const STATUS_MAPPINGS = {
+  "TO DO": "TO DO",
+  "IN PROGRESS": "IN PROGRESS",
+  "AWAITING FOR REVIEW": "IN REVIEW",
+  TESTING: "TESTING",
+  DONE: "DONE"
+};
 
 export default {
   name: "Board",
-  components: { BoardColumn },
+  components: { BoardColumn, NewTaskForm },
   data() {
     return {
-      columns,
-      sprint: {
-        name: "Sprint 45",
-        daysLeft: "2"
-      },
+      sprint: {},
+      tasks: [],
       dialogVisible: false
     };
   },
@@ -54,17 +49,38 @@ export default {
       this.dialogVisible = true;
     },
     logout() {
-      console.log(this.$store);
       this.$store.dispatch("logout");
     },
     getUser() {
       this.$store.dispatch("getUser");
     }
   },
+  mounted() {
+    ProjectsAPI.getCurrentSprint(this.$store.state.currentProject.id).then((response) => {
+      if (response.ok) {
+        this.sprint = response.data.sprint;
+        this.tasks = response.data.tasks;
+      }
+    });
+  },
+  computed: {
+    getColumns() {
+      return ["TO DO", "IN PROGRESS", "AWAITING FOR REVIEW", "TESTING", "DONE"].map(title => ({
+        title,
+        tasks: this.tasks[STATUS_MAPPINGS[title]]
+      }));
+    }
+  },
 };
 </script>
 
-<style lang="sass" scoped>
-  .board
+<style lang="scss" scoped>
+  .board {
     height: 100%;
+
+    & h1 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+  }
 </style>

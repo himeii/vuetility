@@ -77,9 +77,17 @@ const register = async (req, res, next) => {
   return next();
 };
 
+const getProjectsDashboard = async (req, res) => {
+  const { currentUser } = req;
+  console.log(currentUser);
+  const projects = await currentUser.getProjects();
+  res.status(200).send(projects);
+};
+
 module.exports = {
   getUser,
   login,
   logout,
   register,
+  getProjectsDashboard,
 };

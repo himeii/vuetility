@@ -7,7 +7,7 @@
           <Container group-name="list"
            @drop="onDrop(title, $event)"
            :get-child-payload="getChildPayload">
-              <Draggable v-for="task in tasksTest" :key="task.id">
+              <Draggable v-for="task in tasks" :key="task.id">
                 <board-task v-bind="task"></board-task>
               </Draggable>
           </Container>
@@ -17,9 +17,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { Container, Draggable } from "vue-smooth-dnd";
 import AddNewTask from "./AddNewTask.vue";
 import BoardTask from "./BoardTask.vue";
+import ProjectsAPI from "../../api/projects";
+
+const STATUS_MAPPINGS = {
+  "TO DO": "TO DO",
+  "IN PROGRESS": "IN PROGRESS",
+  "AWAITING FOR REVIEW": "IN REVIEW",
+  TESTING: "TESTING",
+  DONE: "DONE"
+};
 
 export default {
   name: "BoardColumn",
@@ -27,28 +37,23 @@ export default {
   components: {
     BoardTask, Container, Draggable, AddNewTask
   },
-  data() {
-    return {
-      tasksTest: Array(10).fill(1).map((i, index) => ({
-        id: index,
-        title: `Fix the thing${index}`,
-        assignee: {
-          name: "Sergey Breus"
-        },
-        time: {
-          estimate: 2,
-          tracked: 1
-        }
-      }))
-    };
-  },
+
   methods: {
-    onDrop(column, dropResult, b) {
-      console.log(column, dropResult, b);
+    ...mapGetters(["currentProject"]),
+    onDrop(status, dropResult) {
+      console.log(status, dropResult);
+      const { removedIndex, addedIndex, payload } = dropResult;
+      if (typeof removedIndex === "number") {
+        console.log("FROM ", status);
+      } else if (typeof addedIndex === "number") {
+        console.log("TO ", status);
+        const projectId = this.currentProject().id;
+        ProjectsAPI.updateTask(projectId, payload.id, STATUS_MAPPINGS[status]);
+      }
     },
     getChildPayload(index) {
       console.log(index);
-      return this.tasksTest[index];
+      return this.tasks[index];
     }
   },
   computed: {

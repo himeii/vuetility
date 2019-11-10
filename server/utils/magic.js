@@ -9,4 +9,5 @@ function magic(...models) {
   });
 }
 
+
 module.exports = () => magic(User, Project, Sprint, Task);

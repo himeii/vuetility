@@ -1,5 +1,3 @@
-import router from "../router";
-
 export default {
   setUser(state, payload) {
     state.user = payload;
@@ -8,9 +6,21 @@ export default {
   onLogout(state) {
     state.user = {};
     state.isAuthenticated = false;
-    router.push("/");
+    // router.push("/");
   },
   getUser(state, payload) {
     console.log(payload);
+  },
+  setProjects(state, payload) {
+    state.projects = payload;
+  },
+  newProject(state, payload) {
+    state.currentProject = payload;
+  },
+  setCurrentProject(state, payload) {
+    state.currentProject = payload;
+  },
+  clearCurrentProject(state) {
+    state.currentProject = null;
   }
 };

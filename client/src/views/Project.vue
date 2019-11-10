@@ -1,14 +1,14 @@
 <template>
-  <el-container class="dashboard-container">
-    <el-aside>
+  <el-container class="project-container">
+    <el-aside width="auto">
       <el-menu router>
-        <el-menu-item index="/dashboard/board">
+        <el-menu-item index="board">
           <span slot="title">Board</span>
         </el-menu-item>
-        <el-menu-item index="/dashboard/backlog">
+        <el-menu-item index="backlog">
           <span slot="title">Backlog</span>
         </el-menu-item>
-        <el-menu-item index="/dashboard/planning">
+        <el-menu-item index="planning">
           <span slot="title">Planning</span>
         </el-menu-item>
       </el-menu>
@@ -22,14 +22,24 @@
 <script>
 
 export default {
-  name: "Dashboard",
+  name: "Project",
 };
 </script>
 
-<style lang="sass" scoped>
-  .dashboard-container
+<style lang="scss" scoped>
+  .project-container{
     height: 100%;
+  }
 
-  .el-menu
+  .el-menu {
     height: 100%;
+  }
+
+  .el-menu-item {
+    padding: 0 80px;
+  }
+
+  .el-main {
+    padding: 0 20px;
+  }
 </style>

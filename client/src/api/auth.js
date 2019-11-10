@@ -19,7 +19,8 @@ const Auth = {
     email, password
   }),
   register: registerData => AuthAPI.post("/register", registerData),
-  getUser: () => AuthAPI.get("/")
+  getUser: () => AuthAPI.get("/"),
+  getDashboardProjects: () => AuthAPI.get("/projects-dashboard")
 
 };
 

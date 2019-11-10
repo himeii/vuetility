@@ -13,10 +13,20 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isAuthenticated: false
+    isAuthenticated: false,
+    user: {},
+    projects: []
   },
   mutations,
   actions,
   plugins: [vuexPersist.plugin],
-  strict: true
+  strict: true,
+  getters: {
+    username: (state) => {
+      const { user } = state;
+      return `${user.firstName} ${user.lastName}`;
+    },
+    projects: state => state.projects,
+    currentProject: state => state.currentProject
+  }
 });

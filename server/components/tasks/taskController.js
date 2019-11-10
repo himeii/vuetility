@@ -1,5 +1,4 @@
-const Joi = require("joi");
-const taskModel = require("./taskModel");
+const Task = require("./taskModel");
 
 const getTasks = async (req, res) => {
   const { project } = req;
@@ -7,18 +6,18 @@ const getTasks = async (req, res) => {
   res.status(200).send(tasks);
 };
 
-const createTaskSchema = Joi.object({
-  name: Joi.string().min(5).max(200).required(),
-  description: Joi.string().min(10).max(500),
-  estimate: Joi.number(),
-  time_tracked: Joi.number(),
-  status: Joi.string().valid(["TO DO", "IN PROGRESS", "IN REVIEW", "TESTING", "DONE"]),
-});
-
-const createTask = async (req, res) => {
-  const { project, body } = req;
+const updateTask = async (req, res) => {
+  const {
+    body, params,
+  } = req;
+  const { taskId } = params;
+  const task = await Task.findByPk(taskId);
+  const updatedTask = await task.update(body);
+  res.status(200).send(updatedTask);
 };
+
+
 module.exports = {
   getTasks,
-  createTask,
+  updateTask,
 };

@@ -6,7 +6,7 @@ const taskStatuses = ["TO DO", "IN PROGRESS", "IN REVIEW", "TESTING", "DONE"];
 const Task = SQL.define("task", {
   id: DBTypes.ID,
   name: DBTypes.NAME,
-  description: Sequelize.STRING,
+  description: { type: Sequelize.STRING, defaultValue: "" },
   estimate: Sequelize.INTEGER,
   time_tracked: Sequelize.INTEGER,
   status: {

@@ -1,4 +1,5 @@
 import AuthAPI from "../api/auth";
+import ProjectAPI from "../api/projects";
 
 export default {
   async login({ commit }, data) {
@@ -24,5 +25,25 @@ export default {
   async getUser({ commit }) {
     const response = await AuthAPI.getUser();
     commit("getUser", response);
+  },
+  async getDashboardProjects({ commit }) {
+    const response = await AuthAPI.getDashboardProjects();
+    console.log(response, "dashboard");
+    if (response.ok) {
+      commit("setProjects", response.data);
+    }
+  },
+  async createProject({ commit }, name) {
+    const response = await ProjectAPI.createProject(name);
+    console.log(response, "project");
+    if (response.ok) {
+      commit("newProject", response.data);
+    }
+  },
+  async setCurrentProject({ commit }, id) {
+    const response = await ProjectAPI.getProjectByID(id);
+    if (response.ok) {
+      commit("setCurrentProject", response.data);
+    }
   }
 };
