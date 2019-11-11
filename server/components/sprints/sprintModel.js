@@ -1,7 +1,7 @@
 const { SQL, Sequelize } = require("../../config/db");
 const DBTypes = require("../../utils/commonTypes");
 
-const sprintStatuses = ["UPCOMING", "CURRENT", "FINISHED"];
+const sprintStatuses = ["UPCOMING", "CURRENT", "FINISHED", "LAST_FINISHED", "BACKLOG"];
 
 const Sprint = SQL.define("sprint", {
   id: DBTypes.ID,

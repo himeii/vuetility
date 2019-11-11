@@ -5,6 +5,8 @@
         <h1>
           Sprint {{sprint.number}}
         </h1>
+        <el-button @click="startSprint"> Start New Sprint </el-button>
+        <el-button @click="endSprint"> End Sprint </el-button>
       </el-col>
     </el-row>
   <el-row type="flex" :gutter="10">
@@ -53,6 +55,16 @@ export default {
     },
     getUser() {
       this.$store.dispatch("getUser");
+    },
+    endSprint() {
+      ProjectsAPI
+        .endCurrentSprint(this.$store.state.currentProject.id)
+        .then(response => console.log(response));
+    },
+    startSprint() {
+      ProjectsAPI
+        .startNewSprint(this.$store.state.currentProject.id)
+        .then(response => console.log(response));
     }
   },
   mounted() {

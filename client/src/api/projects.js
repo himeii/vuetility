@@ -18,7 +18,13 @@ const Projects = {
   getProjectByID: id => ProjectsAPI.get(`/${id}`),
   getCurrentSprint: id => ProjectsAPI.get(`/${id}/currentSprint`),
   createTask: (id, sprintId, task) => ProjectsAPI.post(`/${id}/sprints/${sprintId}/tasks`, task),
-  updateTask: (id, taskId, status) => ProjectsAPI.patch(`/${id}/tasks/${taskId}`, { status })
+  updateTask: (id, taskId, status) => ProjectsAPI.patch(`/${id}/tasks/${taskId}`, { status }),
+  endCurrentSprint: id => ProjectsAPI.get(`/${id}/sprints/endCurrentSprint`),
+  startNewSprint: id => ProjectsAPI.get(`/${id}/sprints/startNewSprint`),
+  getBacklog: id => ProjectsAPI.get(`/${id}/backlog`),
+  getUsers: id => ProjectsAPI.get(`/${id}/users`),
+  getTask: (id, taskId) => ProjectsAPI.get(`/${id}/tasks/${taskId}`),
+  inviteUser: (id, email) => ProjectsAPI.post(`/${id}/invite`, { email }),
 };
 
 export default Projects;

@@ -5,6 +5,8 @@ import NotFoundPage from "./views/NotFoundPage.vue";
 import Project from "./views/Project.vue";
 import Board from "./components/board/Board.vue";
 import Backlog from "./components/backlog/Backlog.vue";
+import Retrospective from "./components/retrospective/Retrospective.vue";
+import Management from "./components/management/Management.vue";
 import Planning from "./components/planning/Planning.vue";
 import Register from "./views/Register.vue";
 import Application from "./views/Application.vue";
@@ -54,6 +56,16 @@ const router = new Router({
               path: "board",
               name: "board",
               component: Board
+            },
+            {
+              path: "retrospective",
+              name: "retrospective",
+              component: Retrospective
+            },
+            {
+              path: "management",
+              name: "management",
+              component: Management
             },
           ]
         },

@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
+const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
 const passport = require("passport");
 const routes = require("./routes/index");
@@ -13,6 +14,8 @@ const magic = require("./utils/magic");
 const { urlencoded, json } = express;
 
 const app = express();
+const client = redis.createClient();
+client.on("error", (error) => console.log(error));
 
 // * Check db
 SQL.authenticate()
@@ -37,7 +40,7 @@ app.use(cors({
 }));
 
 app.use(session({
-  store: new RedisStore(),
+  store: new RedisStore({ client }),
   secret: "vuetility-is-a-secret",
   resave: true,
   rolling: true,

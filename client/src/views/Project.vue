@@ -11,6 +11,12 @@
         <el-menu-item index="planning">
           <span slot="title">Planning</span>
         </el-menu-item>
+        <el-menu-item index="retrospective">
+          <span slot="title">Retrospective</span>
+        </el-menu-item>
+        <el-menu-item index="management">
+          <span slot="title">Management</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-main>

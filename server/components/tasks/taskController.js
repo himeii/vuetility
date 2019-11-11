@@ -6,6 +6,17 @@ const getTasks = async (req, res) => {
   res.status(200).send(tasks);
 };
 
+const getTask = async (req, res) => {
+  const { project, params } = req;
+  const { taskId } = params;
+  console.log(project);
+  const task = await Task.findOne({ where: { id: taskId } });
+  if (!task) {
+    return res.status(404).send({ message: "No such task" });
+  }
+  return res.status(200).send(task);
+};
+
 const updateTask = async (req, res) => {
   const {
     body, params,
@@ -20,4 +31,5 @@ const updateTask = async (req, res) => {
 module.exports = {
   getTasks,
   updateTask,
+  getTask,
 };
