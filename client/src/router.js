@@ -11,6 +11,7 @@ import Planning from "./components/planning/Planning.vue";
 import Register from "./views/Register.vue";
 import Application from "./views/Application.vue";
 import Index from "./components/app/Index.vue";
+import MyTasks from "./components/tasks/MyTasks.vue";
 // import store from "./store/index";
 
 Vue.use(Router);
@@ -69,6 +70,11 @@ const router = new Router({
             },
           ]
         },
+        {
+          name: "my-tasks",
+          path: "my-tasks",
+          component: MyTasks
+        }
       ]
     },
 

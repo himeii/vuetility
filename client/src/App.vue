@@ -17,9 +17,12 @@ export default {
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,700,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,700&display=swap&subset=cyrillic');
+@import '~vue-context/dist/css/vue-context.css';
+
 * {
   font-family: "Nunito Sans", sans-serif;
   -webkit-font-smoothing: antialiased;

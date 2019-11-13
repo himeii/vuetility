@@ -17,6 +17,8 @@ ProjectRouter
   .get("/:id/sprints/endCurrentSprint", protectedRoute, getProject, SprintController.endSprint)
   .get("/:id/sprints/startNewSprint", protectedRoute, getProject, SprintController.startSprint)
   .get("/:id/tasks/:taskId", protectedRoute, getProject, TaskController.getTask)
+  .get("/:id/tasks/:taskId/toBacklog", protectedRoute, getProject, TaskController.sendToBacklog)
+  .get("/:id/tasks/:taskId/take", protectedRoute, withUser, getProject, TaskController.takeTask)
   .post("/", protectedRoute, Controller.createProject)
   .post("/:id/invite", protectedRoute, getProject, Controller.inviteUser)
   .post("/:id/sprints/:sprintId/tasks", protectedRoute, getProject, withUser, Controller.createTask)

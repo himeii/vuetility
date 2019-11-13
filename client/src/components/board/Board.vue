@@ -5,8 +5,9 @@
         <h1>
           Sprint {{sprint.number}}
         </h1>
-        <el-button @click="startSprint"> Start New Sprint </el-button>
-        <el-button @click="endSprint"> End Sprint </el-button>
+        <!-- <el-button @click="startSprint"> Start New Sprint </el-button>
+        <el-button @click="endSprint"> End Sprint </el-button> -->
+        <avatars :users="users" :onSelect="onSelect" />
       </el-col>
     </el-row>
   <el-row type="flex" :gutter="10">
@@ -24,8 +25,11 @@
 
 <script>
 // import { Draggable, Container } from "vue-smooth-dnd";
+import { mapGetters } from "vuex";
+
 import BoardColumn from "./BoardColumn.vue";
 import NewTaskForm from "./NewTaskForm.vue";
+import Avatars from "../app/misc/Avatars.vue";
 import ProjectsAPI from "../../api/projects";
 
 const STATUS_MAPPINGS = {
@@ -38,12 +42,14 @@ const STATUS_MAPPINGS = {
 
 export default {
   name: "Board",
-  components: { BoardColumn, NewTaskForm },
+  components: { BoardColumn, NewTaskForm, Avatars },
   data() {
     return {
       sprint: {},
       tasks: [],
-      dialogVisible: false
+      users: [],
+      dialogVisible: false,
+      tasksFor: []
     };
   },
   methods: {
@@ -58,20 +64,33 @@ export default {
     },
     endSprint() {
       ProjectsAPI
-        .endCurrentSprint(this.$store.state.currentProject.id)
+        .endCurrentSprint(this.currentProject.id)
         .then(response => console.log(response));
     },
     startSprint() {
       ProjectsAPI
-        .startNewSprint(this.$store.state.currentProject.id)
+        .startNewSprint(this.currentProject.id)
         .then(response => console.log(response));
+    },
+    onSelect(selected) {
+      console.log(selected);
+      this.tasksFor = selected;
+      this.getSprint(this.tasksFor);
+    },
+    getSprint(forUsers) {
+      ProjectsAPI.getCurrentSprint(this.currentProject.id, { users: forUsers }).then((response) => {
+        if (response.ok) {
+          this.sprint = response.data.sprint;
+          this.tasks = response.data.tasks;
+        }
+      });
     }
   },
   mounted() {
-    ProjectsAPI.getCurrentSprint(this.$store.state.currentProject.id).then((response) => {
+    this.getSprint();
+    ProjectsAPI.getUsers(this.currentProject.id, { short: true }).then((response) => {
       if (response.ok) {
-        this.sprint = response.data.sprint;
-        this.tasks = response.data.tasks;
+        this.users = response.data.users;
       }
     });
   },
@@ -81,7 +100,8 @@ export default {
         title,
         tasks: this.tasks[STATUS_MAPPINGS[title]]
       }));
-    }
+    },
+    ...mapGetters(["currentProject"])
   },
 };
 </script>

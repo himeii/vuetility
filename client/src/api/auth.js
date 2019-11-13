@@ -20,7 +20,8 @@ const Auth = {
   }),
   register: registerData => AuthAPI.post("/register", registerData),
   getUser: () => AuthAPI.get("/"),
-  getDashboardProjects: () => AuthAPI.get("/projects-dashboard")
+  getDashboardProjects: () => AuthAPI.get("/projects-dashboard"),
+  getMyTasks: () => AuthAPI.get("/myTasks")
 
 };
 

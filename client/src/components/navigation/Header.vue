@@ -4,8 +4,8 @@
     <h1 v-else>{{ currentProject.name }}</h1>
     <div class="header-user">
       <el-dropdown trigger="click">
-        <div>
-        <fa icon="user" /> {{ username }}
+        <div class="user">
+        <avatar :username="username" /> {{ username }}
         </div>
         <el-dropdown-menu slot="dropdown">
           <div @click="logout">Logout</div>
@@ -41,6 +41,20 @@ export default {
 
       & .el-dropdown {
         font-size: 20px;
+      }
+
+      & .user {
+        display: flex;
+        align-items: center;
+
+        & .vue-avatar--wrapper {
+          height: 30px !important;
+          width: 30px !important;
+          font-size: 14px !important;
+          font-family: 'Nunito Sans', sans-serif !important;
+          margin-right: 4px;
+          font-weight: bold;
+        }
       }
     }
   }

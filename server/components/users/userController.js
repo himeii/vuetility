@@ -2,6 +2,7 @@ const passport = require("passport");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const User = require("./userModel");
+const Task = require("../tasks/taskModel");
 
 const registerSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -17,6 +18,12 @@ const getUser = async (req, res) => {
   }
   const currentUser = await User.scope("withoutPassword").findOne({ where: { id: user } });
   return res.status(200).send(currentUser);
+};
+
+const getTasks = async (req, res) => {
+  const { user } = req;
+  const tasks = await Task.findAll({ where: { assigneeId: user } });
+  res.status(200).send(tasks);
 };
 
 const login = (req, res, next) => {
@@ -90,4 +97,5 @@ module.exports = {
   logout,
   register,
   getProjectsDashboard,
+  getTasks,
 };

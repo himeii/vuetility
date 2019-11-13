@@ -1,3 +1,4 @@
+const http = require("http");
 const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
@@ -5,6 +6,8 @@ const cors = require("cors");
 const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
 const passport = require("passport");
+const ioConstructor = require("socket.io");
+
 const routes = require("./routes/index");
 const winston = require("./config/winston");
 const { SQL } = require("./config/db");
@@ -14,6 +17,16 @@ const magic = require("./utils/magic");
 const { urlencoded, json } = express;
 
 const app = express();
+const server = http.createServer(app);
+const io = ioConstructor(server);
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("iconnected", () => {
+    console.log("from frontend");
+  });
+});
+
 const client = redis.createClient();
 client.on("error", (error) => console.log(error));
 
@@ -65,4 +78,6 @@ app.use(routeLogger);
 
 // * Network setup
 const PORT = process.env.PORT || 3001;
-app.listen(PORT);
+server.listen(PORT, () => {
+  console.log("Connected");
+});

@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { Op } = require("sequelize");
 const Project = require("./projectModel");
 const sortTasks = require("../../utils/sortTasks");
 const User = require("../users/userModel");
@@ -73,13 +74,22 @@ const getAll = async (req, res) => {
 };
 
 const getCurrentSprint = async (req, res) => {
-  const { project } = req;
+  const { project, query } = req;
+  const { users } = query;
   const sprints = await project.getSprints();
   const currentSprint = sprints.find((sprint) => sprint.get("status") === "CURRENT");
   if (!currentSprint) {
     return res.status(200).send({ message: "No current sprint" });
   }
-  const currentSprintTasks = await currentSprint.getTasks();
+  const term = users ? {
+    where: {
+      assigneeId: {
+        [Op.in]: users,
+      },
+    },
+  } : undefined;
+  console.log(query, term);
+  const currentSprintTasks = await currentSprint.getTasks(term);
   const resultingTasks = sortTasks(currentSprintTasks);
   return res.status(200).send({ sprint: currentSprint, tasks: resultingTasks });
 };
@@ -95,9 +105,14 @@ const getBacklog = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
-  const { project } = req;
+  const { project, query } = req;
+  const { short } = query;
   const users = await project.getUsers({ attributes: { exclude: ["password"] } });
-  res.status(200).send({ users });
+  let results = users;
+  if (short) {
+    results = users.map((user) => user.get(["id", "avatar", "firstName", "lastName"]));
+  }
+  res.status(200).send({ users: results });
 };
 
 const createTaskSchema = Joi.object({

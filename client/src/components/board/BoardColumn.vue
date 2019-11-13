@@ -48,7 +48,7 @@ export default {
       } else if (typeof addedIndex === "number") {
         console.log("TO ", status);
         const projectId = this.currentProject().id;
-        ProjectsAPI.updateTask(projectId, payload.id, STATUS_MAPPINGS[status]);
+        ProjectsAPI.updateTaskStatus(projectId, payload.id, STATUS_MAPPINGS[status]);
       }
     },
     getChildPayload(index) {

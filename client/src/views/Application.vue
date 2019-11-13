@@ -17,11 +17,20 @@
 <script>
 import Header from "../components/navigation/Header.vue";
 import MainAside from "../components/navigation/MainAside.vue";
+import socket from "../api/websocket";
 
 export default {
   name: "Application",
   components: { "v-header": Header, MainAside },
-  props: ["collapsed"]
+  props: ["collapsed"],
+  mounted() {
+    this.testSocket();
+  },
+  methods: {
+    testSocket() {
+      socket.emit("iconnected");
+    }
+  },
 };
 </script>
 

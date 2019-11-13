@@ -6,6 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import vmodal from "vue-js-modal";
+import vSelect from "vue-multiselect";
+import Avatar from "vue-avatar";
+// import { VueContext } from "vue-context";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store/index";
@@ -20,6 +23,9 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 Vue.use(vmodal);
+Vue.component("v-select", vSelect);
+Vue.component("avatar", Avatar);
+// Vue.component("vue-context", VueContext);
 
 new Vue({
   router,

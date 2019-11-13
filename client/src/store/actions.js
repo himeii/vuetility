@@ -42,8 +42,11 @@ export default {
   },
   async setCurrentProject({ commit }, id) {
     const response = await ProjectAPI.getProjectByID(id);
+    const shortUsers = await ProjectAPI.getUsers(id, { short: true });
     if (response.ok) {
-      commit("setCurrentProject", response.data);
+      const project = response.data;
+      project.users = shortUsers.data.users;
+      commit("setCurrentProject", project);
     }
   }
 };
