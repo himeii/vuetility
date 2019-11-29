@@ -31,6 +31,8 @@ import BoardColumn from "./BoardColumn.vue";
 import NewTaskForm from "./NewTaskForm.vue";
 import Avatars from "../app/misc/Avatars.vue";
 import ProjectsAPI from "../../api/projects";
+import { sortTasks } from "../../utils";
+import Socket from "../../api/websocket";
 
 const STATUS_MAPPINGS = {
   "TO DO": "TO DO",
@@ -75,7 +77,7 @@ export default {
     onSelect(selected) {
       console.log(selected);
       this.tasksFor = selected;
-      this.getSprint(this.tasksFor);
+      // this.getSprint(this.tasksFor);
     },
     getSprint(forUsers) {
       ProjectsAPI.getCurrentSprint(this.currentProject.id, { users: forUsers }).then((response) => {
@@ -84,6 +86,18 @@ export default {
           this.tasks = response.data.tasks;
         }
       });
+    },
+    updateTask(taskId, task) {
+      const index = this.tasks.findIndex(t => t.id === taskId);
+      const newTasks = [...this.tasks];
+      newTasks[index] = task;
+      this.tasks = newTasks;
+    },
+    onSentToBacklog(taskId) {
+      const index = this.tasks.findIndex(t => t.id === taskId);
+      const newTasks = [...this.tasks.slice(0, index),
+        ...this.tasks.slice(index + 1, this.tasks.length)];
+      this.tasks = newTasks;
     }
   },
   mounted() {
@@ -93,12 +107,21 @@ export default {
         this.users = response.data.users;
       }
     });
+    Socket.on("task updated", ({ taskId, task }) => {
+      this.updateTask(taskId, task);
+    });
+    Socket.on("sent to backlog", ({ taskId }) => {
+      this.onSentToBacklog(taskId);
+    });
   },
   computed: {
     getColumns() {
+      const tasksByUser = this.tasks.filter(task => this.tasksFor.includes(task.id));
+      const sortedTasks = sortTasks(tasksByUser.length ? tasksByUser : this.tasks);
+
       return ["TO DO", "IN PROGRESS", "AWAITING FOR REVIEW", "TESTING", "DONE"].map(title => ({
         title,
-        tasks: this.tasks[STATUS_MAPPINGS[title]]
+        tasks: sortedTasks[STATUS_MAPPINGS[title]]
       }));
     },
     ...mapGetters(["currentProject"])

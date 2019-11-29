@@ -90,8 +90,8 @@ const getCurrentSprint = async (req, res) => {
   } : undefined;
   console.log(query, term);
   const currentSprintTasks = await currentSprint.getTasks(term);
-  const resultingTasks = sortTasks(currentSprintTasks);
-  return res.status(200).send({ sprint: currentSprint, tasks: resultingTasks });
+  // const resultingTasks = sortTasks(currentSprintTasks);
+  return res.status(200).send({ sprint: currentSprint, tasks: currentSprintTasks });
 };
 
 const getBacklog = async (req, res) => {

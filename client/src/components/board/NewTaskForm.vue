@@ -22,13 +22,8 @@ export default {
   },
   methods: {
     createTask() {
-      ProjectsAPI.createTask(this.id, this.sprintId, this.newTaskData)
-        .then(response => console.log(response));
+      ProjectsAPI.createTask(this.id, this.sprintId, this.newTaskData);
     }
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

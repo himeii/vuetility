@@ -18,14 +18,12 @@ const { urlencoded, json } = express;
 
 const app = express();
 const server = http.createServer(app);
+// eslint-disable-next-line no-multi-assign
 const io = ioConstructor(server);
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("iconnected", () => {
-    console.log("from frontend");
-  });
-});
+global.io = io;
+
+require("./services/socketio")(io);
 
 const client = redis.createClient();
 client.on("error", (error) => console.log(error));
@@ -43,7 +41,7 @@ require("./config/relations");
 
 SQL.sync().then(() => {
   // require("./utils/testDB");
-  magic();
+  // magic();
 });
 
 // * Plugin setup
@@ -78,6 +76,8 @@ app.use(routeLogger);
 
 // * Network setup
 const PORT = process.env.PORT || 3001;
+
+
 server.listen(PORT, () => {
   console.log("Connected");
 });

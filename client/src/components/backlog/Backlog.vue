@@ -9,6 +9,7 @@
 import { mapGetters } from "vuex";
 import ProjectsAPI from "../../api/projects";
 import BacklogTask from "./BacklogTask.vue";
+import socket from "../../api/websocket";
 
 export default {
   name: "Backlog",
@@ -23,6 +24,18 @@ export default {
       if (response.ok) {
         this.tasks = response.data.tasks;
       }
+    });
+
+    socket.on("task taken", ({ taskId }) => {
+      this.tasks = this.tasks.filter(task => task.id !== taskId);
+    });
+
+    socket.on("sent to backlog", ({ taskId }) => {
+      ProjectsAPI.getTask(this.currentProject.id, taskId).then((response) => {
+        if (response.ok) {
+          this.tasks = [...this.tasks, response.data];
+        }
+      });
     });
   },
   computed: {

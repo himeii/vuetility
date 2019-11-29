@@ -27,8 +27,20 @@
 
 <script>
 
+import { mapGetters } from "vuex";
+import socket from "../api/websocket";
+
 export default {
   name: "Project",
+  mounted() {
+    socket.emit("join-project", { id: this.currentProject.id, sid: socket.id });
+  },
+  beforeDestroy() {
+    socket.emit("leave-project", { id: this.currentProject.id, sid: socket.id });
+  },
+  computed: {
+    ...mapGetters(["currentProject"])
+  },
 };
 </script>
 

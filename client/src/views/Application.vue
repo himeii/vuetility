@@ -29,6 +29,9 @@ export default {
   methods: {
     testSocket() {
       socket.emit("iconnected");
+      socket.on("smth", ({ message }) => {
+        console.log(message);
+      });
     }
   },
 };
