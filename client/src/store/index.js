@@ -15,7 +15,8 @@ export default new Vuex.Store({
   state: {
     isAuthenticated: false,
     user: {},
-    projects: []
+    projects: [],
+    currentProject: {}
   },
   mutations,
   actions,

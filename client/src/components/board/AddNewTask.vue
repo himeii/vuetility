@@ -15,17 +15,20 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-  .add-new-task-button
+<style lang="scss" scoped>
+  .add-new-task-button {
     padding: 16px;
     border: dashed 2px #bdbdbd;
     border-radius: 4px;
     color: #bdbdbd;
     text-align: center;
     cursor: pointer;
-    &:hover
-      border-color: #9e9e9e;
-      color: #9e9e9e;
-    & svg
+    &:hover {
+      border-color: #EBEEF5;
+      color: #EBEEF5;
+    }
+    & svg {
       font-size: 24px;
+    }
+  }
 </style>

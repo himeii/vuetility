@@ -21,10 +21,11 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,700,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,700&display=swap&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900&display=swap');
 @import '~vue-context/dist/css/vue-context.css';
 
 * {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -36,4 +37,11 @@ body, html, #app {
   height: 100%;
   width: 100%;
 }
+
+.heading {
+  font-size: 48px;
+  font-weight: 900;
+  margin: 0;
+}
+
 </style>

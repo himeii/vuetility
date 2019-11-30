@@ -23,11 +23,12 @@ const Projects = {
   sendToBacklog: (id, taskId) => ProjectsAPI.get(`/${id}/tasks/${taskId}/toBacklog`),
   takeTask: (id, taskId) => ProjectsAPI.get(`/${id}/tasks/${taskId}/take`),
   endCurrentSprint: id => ProjectsAPI.get(`/${id}/sprints/endCurrentSprint`),
-  startNewSprint: id => ProjectsAPI.get(`/${id}/sprints/startNewSprint`),
+  startNewSprint: (id, tasks) => ProjectsAPI.post(`/${id}/sprints/startNewSprint`, { tasks }),
   getBacklog: id => ProjectsAPI.get(`/${id}/backlog`),
   getUsers: (id, query) => ProjectsAPI.get(`/${id}/users`, { params: query }),
   getTask: (id, taskId) => ProjectsAPI.get(`/${id}/tasks/${taskId}`),
   inviteUser: (id, email) => ProjectsAPI.post(`/${id}/invite`, { email }),
+  getUnfinishedTasks: id => ProjectsAPI.get(`/${id}/planning`)
 };
 
 export default Projects;

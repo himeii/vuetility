@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Backlog</h1>
+    <h1>Sprint Backlog</h1>
     <backlog-task v-for="task in tasks" :key="task.id" v-bind="task" />
   </div>
 </template>
@@ -43,3 +43,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  h1 {
+    font-size: 48px;
+    margin: 0;
+  }
+</style>

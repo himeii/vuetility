@@ -4,6 +4,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faPlus, faUser, faHome, faTasks
 } from "@fortawesome/free-solid-svg-icons";
+import { faCommentAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import vmodal from "vue-js-modal";
 import vSelect from "vue-multiselect";
@@ -14,7 +15,7 @@ import router from "./router";
 import store from "./store/index";
 import "element-ui/lib/theme-chalk/index.css";
 
-library.add(faPlus, faUser, faHome, faTasks);
+library.add(faPlus, faUser, faHome, faTasks, faCommentAlt);
 
 
 Vue.component("fa", FontAwesomeIcon);

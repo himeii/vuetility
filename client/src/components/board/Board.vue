@@ -5,16 +5,19 @@
         <h1>
           Sprint {{sprint.number}}
         </h1>
-        <!-- <el-button @click="startSprint"> Start New Sprint </el-button>
-        <el-button @click="endSprint"> End Sprint </el-button> -->
-        <avatars :users="users" :onSelect="onSelect" />
+        <!-- <el-button @click="startSprint"> Start New Sprint </el-button> -->
+        <el-button @click="endSprint">End Sprint</el-button>
+        <div class="avatars">
+          <avatars :users="users" :onSelect="onSelect" />
+        </div>
       </el-col>
     </el-row>
-  <el-row type="flex" :gutter="10">
+  <el-row type="flex">
     <BoardColumn v-for="column in getColumns"
                   :key="column.title"
                   :title="column.title"
                   :tasks="column.tasks"
+                  :users="users"
                   :openDialog="openDialog" > </BoardColumn>
   </el-row>
    <el-dialog :visible.sync="dialogVisible">
@@ -67,7 +70,9 @@ export default {
     endSprint() {
       ProjectsAPI
         .endCurrentSprint(this.currentProject.id)
-        .then(response => console.log(response));
+        .then((response) => {
+          this.$router.push({ name: "planning", params: response.data });
+        });
     },
     startSprint() {
       ProjectsAPI
@@ -77,10 +82,11 @@ export default {
     onSelect(selected) {
       console.log(selected);
       this.tasksFor = selected;
+      // this.tasks = this.tasks.filter(task => selected.includes(task.assigneeId));
       // this.getSprint(this.tasksFor);
     },
-    getSprint(forUsers) {
-      ProjectsAPI.getCurrentSprint(this.currentProject.id, { users: forUsers }).then((response) => {
+    getSprint() {
+      ProjectsAPI.getCurrentSprint(this.currentProject.id).then((response) => {
         if (response.ok) {
           this.sprint = response.data.sprint;
           this.tasks = response.data.tasks;
@@ -107,6 +113,16 @@ export default {
         this.users = response.data.users;
       }
     });
+
+    this.$store.watch(state => state.currentProject, (currentProject) => {
+      this.getSprint();
+      ProjectsAPI.getUsers(currentProject.id, { short: true }).then((response) => {
+        if (response.ok) {
+          this.users = response.data.users;
+        }
+      });
+    });
+
     Socket.on("task updated", ({ taskId, task }) => {
       this.updateTask(taskId, task);
     });
@@ -114,9 +130,10 @@ export default {
       this.onSentToBacklog(taskId);
     });
   },
+
   computed: {
     getColumns() {
-      const tasksByUser = this.tasks.filter(task => this.tasksFor.includes(task.id));
+      const tasksByUser = this.tasks.filter(task => this.tasksFor.includes(task.assigneeId));
       const sortedTasks = sortTasks(tasksByUser.length ? tasksByUser : this.tasks);
 
       return ["TO DO", "IN PROGRESS", "AWAITING FOR REVIEW", "TESTING", "DONE"].map(title => ({
@@ -134,8 +151,13 @@ export default {
     height: 100%;
 
     & h1 {
-      font-size: 24px;
+      font-size: 48px;
       margin-top: 0;
+      margin-bottom: 0.5em;
+      font-weight: 900;
+    }
+    & .avatars {
+      margin-bottom: 24px;
     }
   }
 </style>

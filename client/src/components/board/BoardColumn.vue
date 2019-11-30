@@ -1,18 +1,20 @@
 <template>
-  <el-col :span="5">
-    <div class="board-column-header">
-      {{ title }}
+  <el-col class="board-column" :span="5">
+    <div>
+      <div class="board-column-header">
+        {{ title.toLowerCase() }}
+      </div>
+      <div :class="listClass">
+        <Container group-name="list"
+        @drop="onDrop(title, $event)"
+        :get-child-payload="getChildPayload">
+            <Draggable v-for="task in tasks" :key="task.id">
+              <board-task v-bind="task" :user="users.find(user => user.id === task.assigneeId)" />
+            </Draggable>
+        </Container>
+        <AddNewTask :openDialog="openDialog" :key="title" :column="title" />
+      </div>
     </div>
-        <div :class="listClass">
-          <Container group-name="list"
-           @drop="onDrop(title, $event)"
-           :get-child-payload="getChildPayload">
-              <Draggable v-for="task in tasks" :key="task.id">
-                <board-task v-bind="task"></board-task>
-              </Draggable>
-          </Container>
-          <AddNewTask :openDialog="openDialog" :key="title" :column="title" />
-        </div>
   </el-col>
 </template>
 
@@ -33,7 +35,7 @@ const STATUS_MAPPINGS = {
 
 export default {
   name: "BoardColumn",
-  props: ["title", "tasks", "openDialog"],
+  props: ["title", "tasks", "openDialog", "users"],
   components: {
     BoardTask, Container, Draggable, AddNewTask
   },
@@ -64,24 +66,36 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-  .board-column-header
-    background-color: #f5f5f5;
-    padding: 8px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 14px;
-    line-height: 16px;
-    vertical-align: center;
+<style lang="scss" scoped>
 
-  .board-column-task-list
-    background-color: #f5f5f5;
-    margin-top: 8px;
+  .board-column {
     padding: 8px;
+
+    & > div {
+      // background-color: #f1f5fd;
+      border: 1px solid #EBEEF5;
+      border-radius: 12px;
+    }
+  }
+
+  .board-column-header {
+    padding: 16px;
+    border-radius: 4px;
+    text-transform: capitalize;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 18px;
+    vertical-align: center;
+  }
+
+  .board-column-task-list {
+    margin-top: 8px;
+    padding: 16px;
     border-radius: 4px;
     height: 100%;
+    & > .smooth-dnd-draggable-wrapper {
+      margin-bottom: 8px;
+    }
+  }
 
-    & > *
-      margin-bottom: 4px;
 </style>

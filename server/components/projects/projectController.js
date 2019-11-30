@@ -1,7 +1,6 @@
 const Joi = require("joi");
 const { Op } = require("sequelize");
 const Project = require("./projectModel");
-const sortTasks = require("../../utils/sortTasks");
 const User = require("../users/userModel");
 
 const createProjectSchema = Joi.object({

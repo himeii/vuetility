@@ -18,11 +18,7 @@ export default {
   },
   methods: {
     select(data) {
-      const found = this.selected.find((id) => {
-        console.log(id, data.id);
-        return id === data.id;
-      });
-      console.log(found);
+      const found = this.selected.find(id => id === data.id);
       if (found) {
         this.selected = this.selected.filter(id => id !== data.id);
       } else {
@@ -49,11 +45,13 @@ export default {
       font-family:  'Nunito Sans', sans-serif !important;
       font-size: 16px !important;
       font-weight: bold !important;
+      position: relative;
     }
 
     & .selected {
       & .vue-avatar--wrapper {
         border: 3px #4fc08d solid;
+        z-index: 1;
       }
     }
   }

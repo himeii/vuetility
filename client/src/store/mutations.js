@@ -21,6 +21,6 @@ export default {
     state.currentProject = payload;
   },
   clearCurrentProject(state) {
-    state.currentProject = null;
+    state.currentProject = {};
   }
 };
